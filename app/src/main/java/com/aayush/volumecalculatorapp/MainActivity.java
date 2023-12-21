@@ -1,0 +1,68 @@
+package com.aayush.volumecalculatorapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    GridView gridView;
+    MyCustomAdaptor myCustomAdaptor;
+    ArrayList<Shape> shapeArrayList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        gridView = findViewById(R.id.gridView);
+        shapeArrayList = new ArrayList<>();
+
+        Shape s1 = new Shape(R.drawable.sphere,"Sphere");
+        Shape s2 = new Shape(R.drawable.cube,"Cube");
+        Shape s3 = new Shape(R.drawable.cylinder,"Cylinder");
+        Shape s4 = new Shape(R.drawable.prism,"Prism");
+
+        shapeArrayList.add(s1);
+        shapeArrayList.add(s2);
+        shapeArrayList.add(s3);
+        shapeArrayList.add(s4);
+
+        myCustomAdaptor = new MyCustomAdaptor(shapeArrayList,getApplicationContext());
+
+        gridView.setAdapter(myCustomAdaptor);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i;
+
+                switch (position) {
+                    case 0:
+                        i = new Intent(getApplicationContext(), Sphere.class);
+                        break;
+                    case 1:
+                        i = new Intent(getApplicationContext(), Cube.class);
+                        break;
+                    case 2:
+                        i = new Intent(getApplicationContext(), Cylinder.class);
+                        break;
+                    case 3:
+                        i = new Intent(getApplicationContext(), Prism.class);
+                        break;
+                    default:
+                        // Handle other cases or fallback to a default activity
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                }
+                startActivity(i);
+            }
+        });
+    }
+}
